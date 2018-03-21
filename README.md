@@ -35,13 +35,13 @@ Add the address which can integrate the Agora Video SDK automatically through JC
 ```
 compile 'io.agora.rtc:full-sdk:2.1.0'
 ```
-(This sample program has added this address and do not need to add again. Adding the link address is the most important step if you want to integrate the Agora Video SDK in your own application.)
+(Adding the link address is the most important step if you want to integrate the Agora Video SDK in your own application.)
 
 - Alternative way to integrate:
 
 First, download the **Agora Video SDK** from [Agora.io SDK](https://www.agora.io/en/download/). Unzip the downloaded SDK package and copy ***.jar** under **libs** to **app/libs**, **arm64-v8a**/**x86**/**armeabi-v7a** under **libs** to **app/src/main/jniLibs**.
 
-Then, add the fllowing code in the property of the dependence of the "app/build.gradle":
+Then, add the following code in the property of the dependence of the "app/build.gradle":
 
 ```
 compile fileTree(dir: 'libs', include: ['*.jar'])
