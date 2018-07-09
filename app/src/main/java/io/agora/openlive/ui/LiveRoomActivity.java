@@ -121,12 +121,13 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler {
         textRoomName.setText(roomName);
     }
 
-    private void broadcasterUI(ImageView button1, ImageView button2, ImageView button3) {
+    private void broadcasterUI(final ImageView button1, ImageView button2, ImageView button3) {
         button1.setTag(true);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Object tag = v.getTag();
+                button1.setEnabled(false);
                 if (tag != null && (boolean) tag) {
                     doSwitchToBroadcaster(false);
                 } else {
@@ -163,12 +164,13 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler {
         });
     }
 
-    private void audienceUI(ImageView button1, ImageView button2, ImageView button3) {
+    private void audienceUI(final ImageView button1, ImageView button2, ImageView button3) {
         button1.setTag(null);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Object tag = v.getTag();
+                button1.setEnabled(false);
                 if (tag != null && (boolean) tag) {
                     doSwitchToBroadcaster(false);
                 } else {
@@ -250,6 +252,9 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler {
         final int uid = config().mUid;
         log.debug("doSwitchToBroadcaster " + currentHostCount + " " + (uid & 0XFFFFFFFFL) + " " + broadcaster);
 
+        final ImageView button1 = (ImageView) findViewById(R.id.btn_1);
+        final ImageView button2 = (ImageView) findViewById(R.id.btn_2);
+        final ImageView button3 = (ImageView) findViewById(R.id.btn_3);
         if (broadcaster) {
             doConfigEngine(Constants.CLIENT_ROLE_BROADCASTER);
 
@@ -257,16 +262,13 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler {
                 @Override
                 public void run() {
                     doRenderRemoteUi(uid);
-
-                    ImageView button1 = (ImageView) findViewById(R.id.btn_1);
-                    ImageView button2 = (ImageView) findViewById(R.id.btn_2);
-                    ImageView button3 = (ImageView) findViewById(R.id.btn_3);
                     broadcasterUI(button1, button2, button3);
-
+                    button1.setEnabled(true);
                     doShowButtons(false);
                 }
             }, 1000); // wait for reconfig engine
         } else {
+            button1.setEnabled(true);
             stopInteraction(currentHostCount, uid);
         }
     }
